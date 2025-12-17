@@ -4,14 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,8 +27,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -89,7 +97,7 @@ enum class AppDestinations(
 fun FirstScreen() {
     var counter by remember { mutableStateOf(0) }
 
-    Column(modifier = Modifier.padding(32.dp)) {
+    Column(modifier = Modifier.padding(32.dp).fillMaxSize().background(Color.LightGray)) {
         Text("remember: $counter")
         Button(onClick = { counter++ }) {
             Text("Add")
@@ -102,7 +110,10 @@ fun FirstScreen() {
 fun SecondScreen() {
     var counter by rememberSaveable { mutableStateOf(0) }
 
-    Column(modifier = Modifier.padding(32.dp)) {
+    Column(modifier = Modifier.padding(32.dp).fillMaxSize()
+        , horizontalAlignment  = Alignment.CenterHorizontally
+    ) {
+        
         Text("saveable: $counter")
         Button(onClick = { counter++ }) {
             Text("Add")
@@ -121,9 +132,21 @@ class MyCounterViewModel : ViewModel() {
 
 @Composable
 fun ThirdScreen(viewModel: MyCounterViewModel = viewModel()) {
-    Column(modifier = Modifier.padding(32.dp)) {
+    Column(modifier = Modifier.padding(32.dp).fillMaxSize()
+    ,horizontalAlignment  = Alignment.CenterHorizontally
+    , verticalArrangement = Arrangement.Center
+    ) {
         Text("ViewModel counter: ${viewModel.counter}")
-        Button(onClick = { viewModel.increment() }) {
+        Button(onClick = { viewModel.increment() },
+            modifier = Modifier
+                .size(width = 200.dp, height = 40.dp),
+            colors = ButtonColors(
+                containerColor = Color.Cyan,
+                contentColor = Color.White,
+                disabledContainerColor = Color.Black,
+                disabledContentColor = Color.White
+            )
+            ) {
             Text("Add")
         }
     }
